@@ -1,5 +1,5 @@
 <?php
-
+    require_once '../User.php';
 interface UserBuilder
 {
     public function reset();

@@ -1,6 +1,5 @@
 <?php
 require_once "UserBuilder.php";
-require_once "User.php";
 class LoginLocalUser implements UserBuilder
 {
     private User $user;
