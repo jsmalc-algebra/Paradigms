@@ -9,7 +9,7 @@
     if (isset($_SESSION["user"])) header('location: main_page.php');
 
     if(isset($_POST['login'])) {
-        require "ConnectToDatabase.php";
+        require_once "ConnectToDatabase.php";
 
 
 
