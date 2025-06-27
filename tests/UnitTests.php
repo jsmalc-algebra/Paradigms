@@ -2,7 +2,9 @@
 declare(strict_types = 1);
 require_once '../functions.php';
 require_once '../patterns/UserBuilderFactory.php';
-final class UnitTests extends \PHPUnit\Framework\TestCase
+
+use PHPUnit\Framework\TestCase;
+final class UnitTests extends TestCase
 {
     public function testGoldUserConsumption() : void {
         $test_user = UserBuilderFactory::createConsumptionTesterUserBuilder()
