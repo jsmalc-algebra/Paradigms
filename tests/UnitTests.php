@@ -18,9 +18,10 @@ final class UnitTests extends TestCase
         $this->assertSame(true,checkUserConsumption($test_user));
     }
     public function testProConsumption() : void {
+        $max_consumption_pro = 35;
         $test_user = UserBuilderFactory::createConsumptionTesterUserBuilder()
             ->setUserTier(2)
-            ->setWeeklyPicturesUploaded(34)
+            ->setWeeklyPicturesUploaded($max_consumption_pro-1)
             ->getUser();
 
         $this->assertSame(true,checkUserConsumption($test_user));
@@ -30,9 +31,10 @@ final class UnitTests extends TestCase
     }
 
     public function testFreeConsumption() : void{
+        $max_consumption_free =7;
         $test_user = UserBuilderFactory::createConsumptionTesterUserBuilder()
             ->setUserTier(1)
-            ->setWeeklyPicturesUploaded(6)
+            ->setWeeklyPicturesUploaded($max_consumption_free-1)
             ->getUser();
 
         $this->assertSame(true,checkUserConsumption($test_user));
