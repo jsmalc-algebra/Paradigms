@@ -14,4 +14,26 @@ final class UnitTests extends TestCase
 
         $this->assertSame(true,checkUserConsumption($test_user));
     }
+    public function testProConsumption() : void {
+        $test_user = UserBuilderFactory::createConsumptionTesterUserBuilder()
+            ->setUserTier(2)
+            ->setWeeklyPicturesUploaded(34)
+            ->getUser();
+
+        $this->assertSame(true,checkUserConsumption($test_user));
+        $test_user->setWeeklyPicturesUploaded($test_user->getWeeklyPicturesUploaded() + 1);
+        $this->assertSame(false,checkUserConsumption($test_user));
+
+    }
+
+    public function testFreeConsumption() : void{
+        $test_user = UserBuilderFactory::createConsumptionTesterUserBuilder()
+            ->setUserTier(1)
+            ->setWeeklyPicturesUploaded(6)
+            ->getUser();
+
+        $this->assertSame(true,checkUserConsumption($test_user));
+        $test_user->setWeeklyPicturesUploaded($test_user->getWeeklyPicturesUploaded() + 1);
+        $this->assertSame(false,checkUserConsumption($test_user));
+    }
 }
