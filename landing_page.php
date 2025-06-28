@@ -1,8 +1,8 @@
 <?php
-    require_once "User.php";
-    require_once "patterns/UserBuilderFactory.php";
-    require_once "patterns/LogableActions.php";
-    require_once "patterns/LoggingActions.php";
+    require_once __DIR__ . "/User.php";
+    require_once __DIR__ . "/patterns/UserBuilderFactory.php";
+    require_once __DIR__ . "/patterns/LogableActions.php";
+    require_once __DIR__ . "/patterns/LoggingActions.php";
     session_start();
 
 

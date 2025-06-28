@@ -1,8 +1,8 @@
 <?php
-require_once "ConnectToDatabase.php";
-require_once "LogableActions.php";
-require_once "LogableActionsInterface.php";
-require_once "functions.php";
+require_once __DIR__ . "/../ConnectToDatabase.php";
+require_once __DIR__ . "/LogableActions.php";
+require_once __DIR__ . "/LogableActionsInterface.php";
+require_once __DIR__ . "/../functions.php";
 class LoggingActions implements LogableActionsInterface
 {
     private LogableActions $logableActions;
