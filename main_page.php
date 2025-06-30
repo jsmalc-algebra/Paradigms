@@ -1,7 +1,7 @@
 <?php
-    require "User.php";
+    require_once "User.php";
     require_once "ConnectToDatabase.php";
-    require "functions.php";
+    require_once "functions.php";
     session_start();
 
     $db = ConnectToDatabase::getInstance();
