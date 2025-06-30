@@ -1,7 +1,7 @@
 <?php
 require_once "patterns/Singleton.php";
 
-class MySQLiConfig extends Singleton implements DBConnectionInterface
+class MySQLiConfig extends Singleton implements DBConnectionInterface, DBUtilityInterface
 {
     private $host;
     private $username;
