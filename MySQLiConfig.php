@@ -99,7 +99,7 @@ class MySQLiConfig extends Singleton implements DBConnectionInterface
     /**
      * @throws Exception
      */
-    private function ensureConnected()
+    public function ensureConnected()
     {
         if (!$this->isConnected) {
             $this->connect();
