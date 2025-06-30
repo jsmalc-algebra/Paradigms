@@ -1,5 +1,7 @@
 <?php
     require_once "MySQLiConfig.php";
+
+    #Pure function
     function convertToGD($tempPath) {
         $allowedMimeTypes = [
             'image/jpeg',
@@ -34,6 +36,7 @@
         }
     }
 
+    #Pure function
     function makePNG($sourceImage,$file) {
         imagealphablending($sourceImage, false);
         imagesavealpha($sourceImage, true);
@@ -92,6 +95,8 @@
         echo "</a>";
         echo "</div>";
     }
+
+    #Pure function
     function checkUserConsumption(User $usr) {
         $tier = $usr->getUserTier();
         $uploads = $usr->getWeeklyPicturesUploaded();
@@ -103,8 +108,7 @@
         }
     }
 
-    function findIDByUsername($username)
-    {
+    function findIDByUsername($username){
         $db =MySQLiConfig::getInstance();
         $db->connect();
         $Q = "SELECT id from users where username='$username'";
@@ -112,4 +116,30 @@
         $db->Disconnect();
         if ($rez!=null) return $rez[0];
         else return null;
+    }
+
+    #Pure function
+    function constructPhotoUploadQuery($esc_name, $user_id, $desc = null, $hash_array=null){
+        $data_fields = ['hashtag_1','hashtag_2','hashtag_3','hashtag_4','hashtag_5'];
+
+        $Q = "INSERT INTO photos (photo_location,user_id";
+        if (sizeof($hash_array)) {
+            for ($i = 0; $i < sizeof($hash_keys); $i++) {
+                $Q .= ',' . $data_fields[$i];
+            }
+        }
+        if (isset($desc)){
+            $esc_description = $db->EscapeString($desc);
+            $Q .= ',description';
+        }
+
+        $Q .= ") VALUES ('$esc_name',$user_id";
+        if (sizeof($hash_array)) {
+            for ($i = 0; $i < sizeof($hash_keys); $i++) {
+                $Q .= ',' . $hash_keys[$i];
+            }
+        }
+        if (isset($desc)) $Q .= ",'$esc_description'";
+        $Q .= ")";
+        return $Q;
     }
