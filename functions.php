@@ -143,3 +143,34 @@
         $Q .= ")";
         return $Q;
     }
+
+    #Pure function
+    function constructPhotoEditQuery($desc=null,$hash_array=null,$id,DBConnectionInterface $db): ?string {
+        $data_fields = ['hashtag_1','hashtag_2','hashtag_3','hashtag_4','hashtag_5'];
+
+        if(isset($desc)) {
+            $esc_description = $db->EscapeString($desc);
+            $dsc_flag = true;
+        } else $dsc_flag = false;
+
+        if (sizeof($hash_array)) {
+            $hash_flag = true;
+        } else $hash_flag = false;
+
+        if ($hash_flag || $dsc_flag) {
+            $query = "UPDATE photos SET ";
+
+            if ($dsc_flag) {
+                $query .='description = "'.$esc_description.' " ';
+            }
+            if ($hash_flag) {
+                if($dsc_flag) $query .=", ";
+                for ($j = 0; $j < sizeof($hash_keys); $j++) {
+                    $query.=$data_fields[$j].' = '.$hash_keys[$j].' ';
+                }
+            }
+            $query .= " WHERE id = '$id'";
+            return $query;
+        }
+        else return null;
+    }
