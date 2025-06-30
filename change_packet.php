@@ -19,11 +19,11 @@
 
         $Q="UPDATE users SET plan_id = $new_plan WHERE id = $u_id";
 
-        (new LoggingActions(new LogableActions()))->UserPlanChange($db,$u_id);
+        (new LoggingActions(new LogableActions()))->UserPlanChange($db,$Q,$u_id);
     }
 ?>
 
-<html>
+<html lang="en">
     <head>
         <title>Landing page</title>
         <link rel="stylesheet" href="css/bootstrap.css">

@@ -14,7 +14,7 @@
 
     if (isset($_POST['download'])) {
         $u_id =findIDByUsername($_SESSION['user']->getUsername());
-        (new LoggingActions(new LoggingActions()))->UserPhotoDownload($db, $u_id,$id);
+        (new LoggingActions(new LogableActions()))->UserPhotoDownload($db, $u_id,$id);
 
         $path='images/photos/'.$rez[1];
         $source_img = convertToGD($path);
@@ -77,7 +77,7 @@
     $db->Disconnect();
 ?>
 
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="css/bootstrap.css">
