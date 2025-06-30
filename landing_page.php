@@ -3,15 +3,10 @@
     require_once __DIR__ . "/patterns/UserBuilderFactory.php";
     require_once __DIR__ . "/patterns/LogableActions.php";
     require_once __DIR__ . "/patterns/LoggingActions.php";
-    require_once __DIR__ . '/vendor/autoload.php';
-    use Prometheus\CollectorRegistry;
-    use Prometheus\Storage\APC;
-    $adapter = new APC();
-    $registry = new CollectorRegistry($adapter);
     session_start();
 
 
-if (isset($_SESSION["user"])) header('location: main_page.php');
+    if (isset($_SESSION["user"])) header('location: main_page.php');
 
     if(isset($_POST['login'])) {
         require_once "MySQLiConfig.php";
@@ -38,12 +33,6 @@ if (isset($_SESSION["user"])) header('location: main_page.php');
                     ->getUser();
                 (new LoggingActions(new LogableActions()))->UserLogin($rez[0],$db);
                 $_SESSION["user"] = $user;
-                try {
-                    $counter = $registry->registerCounter('metrics', 'login_counter', 'counts how many users logged in');
-                    $counter->inc();
-                } catch (\Prometheus\Exception\MetricsRegistrationException $e) {
-                    exit($e->getMessage() . "\n");
-                }
 
             } catch (Exception $e) {
                 echo $e->getMessage();
@@ -70,12 +59,6 @@ if (isset($_SESSION["user"])) header('location: main_page.php');
                             if (!$good_login) {
                                 echo "<h2 style='color: red'>INCORRECT EMAIL/PASSWORD</h2>";
                                 echo "<h2 style='color: red'>PLEASE TRY AGAIN</h2>";
-                                try {
-                                    $counter = $registry->registerCounter('metrics', 'bad_login_counter', 'counts how many times a failed login occurred');
-                                    $counter->inc();
-                                } catch (\Prometheus\Exception\MetricsRegistrationException $e) {
-                                    exit($e->getMessage() . "\n");
-                                }
                             } else {header("Location: main_page.php");}
                         }
                     ?>

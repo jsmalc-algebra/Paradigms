@@ -4,11 +4,6 @@
     require_once "MySQLiConfig.php";
     require_once "patterns/LoggingActions.php";
     require_once "patterns/LogableActions.php";
-    require_once __DIR__ . '/vendor/autoload.php';
-    use Prometheus\CollectorRegistry;
-    use Prometheus\Storage\APC;
-    $adapter = new APC();
-    $registry = new CollectorRegistry($adapter);
     session_start();
 
     if(isset($_POST['upload'])) {
@@ -32,15 +27,7 @@
                 $new_name = pathinfo($name,PATHINFO_FILENAME).".png";
                 $sourceImage = convertToGD($tempPath);
 
-                if (!$sourceImage || !makePNG($sourceImage,$new_name_path)) {
-                    echo "Error image upload file!";
-                    try {
-                        $counter = $registry->registerCounter('metrics', 'failed_upload_counter', 'counts how many picture failed to upload');
-                        $counter->inc();
-                    } catch (\Prometheus\Exception\MetricsRegistrationException $e) {
-                        echo $e->getMessage() . "\n";
-                    }
-                }
+                if (!$sourceImage || !makePNG($sourceImage,$new_name_path)) echo "Error image upload file!";
                 imagedestroy($sourceImage);
             }
             elseif ($edit =="JPG") {
@@ -48,15 +35,7 @@
                 $new_name = pathinfo($name,PATHINFO_FILENAME).".jpg";
                 $sourceImage = convertToGD($tempPath);
 
-                if (!$sourceImage || !imagejpeg($sourceImage,$new_name_path)) {
-                    echo "Error image upload file!";
-                    try {
-                        $counter = $registry->registerCounter('metrics', 'failed_upload_counter', 'counts how many picture failed to upload');
-                        $counter->inc();
-                    } catch (\Prometheus\Exception\MetricsRegistrationException $e) {
-                        echo $e->getMessage() . "\n";
-                    }
-                }
+                if (!$sourceImage || !imagejpeg($sourceImage,$new_name_path)) echo "Error image upload file!";
                 imagedestroy($sourceImage);
             }
             elseif ($edit =="WEBP") {
@@ -64,15 +43,7 @@
                 $new_name = pathinfo($name,PATHINFO_FILENAME).".webp";
                 $sourceImage = convertToGD($tempPath);
 
-                if (!$sourceImage || !imagewebp($sourceImage,$new_name_path)) {
-                    echo "Error image upload file!";
-                    try {
-                        $counter = $registry->registerCounter('metrics', 'failed_upload_counter', 'counts how many picture failed to upload');
-                        $counter->inc();
-                    } catch (\Prometheus\Exception\MetricsRegistrationException $e) {
-                        echo $e->getMessage() . "\n";
-                    }
-                }
+                if (!$sourceImage || !imagewebp($sourceImage,$new_name_path)) echo "Error image upload file!";
                 imagedestroy($sourceImage);
             }
 
@@ -130,12 +101,6 @@
             (new LoggingActions(new LogableActions()))->UserPhotoUpload($db, $Q, $user_id);
 
             $_SESSION['user']->addConsumption($db,$user_id);
-            try {
-                $counter = $registry->registerCounter('metrics', 'upload_counter', 'counts how many picture were uploaded');
-                $counter->inc();
-            } catch (\Prometheus\Exception\MetricsRegistrationException $e) {
-                echo $e->getMessage() . "\n";
-            }
         }
     }
 ?>
@@ -150,7 +115,7 @@
 
     <body class="bg-dark">
         <header>
-        <nav class="navbar nd-lg navbar-dark bg-black">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-black">
             <div class="container-fluid">
                 <a class="navbar-brand" href="<?php if(isset($_SESSION['user'])) echo "user_page.php"; else echo "#"?>">
                     <img src="images/pfps/<?php
@@ -166,7 +131,7 @@
                             <a class="nav-link" href="main_page.php">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class=navbar-expa"nav-link" href="all_pictures.php">Browse all</a>
+                            <a class="nav-link" href="all_pictures.php">Browse all</a>
                         </li>
                         <li class="nav-item">
                             <a aria-current="page" class="nav-link active <?php if(!isset($_SESSION['user'])) echo "disabled"; ?>"
