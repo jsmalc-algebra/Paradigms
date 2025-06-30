@@ -1,7 +1,8 @@
 <?php
-    require "User.php";
-    require "functions.php";
+    require_once "User.php";
+    require_once "functions.php";
     require_once "ConnectToDatabase.php";
+    require_once "patterns/AuthorizationDecorator.php";
     session_start();
 
     $db = ConnectToDatabase::getInstance();
@@ -26,7 +27,7 @@
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-black">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="<?php if ($_SESSION['user']->getUserRole()==1) echo 'admin_dashboard.php'; else echo '#'?>">
+                    <a class="navbar-brand" href="<?php if ((new AuthorizationDecorator(null, $_SESSION['user']->getUserRole()))->dashboard_acess()) echo 'admin_dashboard.php'; else echo '#'?>">
                         <img src="images/pfps/<?php
                         if (isset($_SESSION['user']) && $_SESSION['user']->getPfp()==1) echo $_SESSION['user']->getUsername(); else echo "anonymous";
                         ?>.png" alt="profile picture" width="30" height="24" class="d-inline-block align-text-top">
