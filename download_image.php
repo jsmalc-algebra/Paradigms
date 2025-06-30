@@ -4,6 +4,11 @@
     require "functions.php";
     require_once "patterns/LogableActions.php";
     require_once "patterns/LoggingActions.php";
+    require_once __DIR__ . '/vendor/autoload.php';
+    use Prometheus\CollectorRegistry;
+    use Prometheus\Storage\APC;
+    $adapter = new APC();
+    $registry = new CollectorRegistry($adapter);
     session_start();
 
     $id = $_GET['id'];
@@ -71,7 +76,12 @@
             header('Content-Disposition: attachment; filename="'.reset($exp_path).'"');
             imagewebp($source_img);
         }
-
+        try {
+            $counter = $registry->registerCounter('metrics', 'download_counter', 'counts how many times pictures were downloaded');
+            $counter->inc();
+        } catch (\Prometheus\Exception\MetricsRegistrationException $e) {
+            echo $e->getMessage() . "\n";
+        }
         imagedestroy($source_img);
     }
     $db->Disconnect();
