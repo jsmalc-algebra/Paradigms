@@ -2,6 +2,7 @@
 require "BrandNewLocalUser.php";
 require "LoginLocalUser.php";
 require "ShowcasedUser.php";
+require "ConsumptionTesterUser.php";
 
 
 class UserBuilderFactory
@@ -19,5 +20,10 @@ class UserBuilderFactory
     public static function createShowcasedUserBuilder(): ShowcasedUser
     {
         return new ShowcasedUser();
+    }
+
+    public static function createConsumptionTesterUserBuilder(): ConsumptionTesterUser
+    {
+        return new ConsumptionTesterUser();
     }
 }

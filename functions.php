@@ -3,7 +3,6 @@
     function convertToGD($tempPath) {
         $allowedMimeTypes = [
             'image/jpeg',
-            'image/jpg',
             'image/png',
             'image/gif',
             'image/webp',
@@ -15,7 +14,7 @@
         elseif (!in_array($imageInfo['mime'], $allowedMimeTypes)) return false;
         else {
             switch ($imageInfo['mime']) {
-                case 'image/jpeg' or 'image/jpg':
+                case 'image/jpeg':
                     $sourceImage = imagecreatefromjpeg($tempPath);
                     break;
                 case 'image/png':

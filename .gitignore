@@ -130,3 +130,4 @@ fabric.properties
 images/pfps/*
 images/photos/*
 database.ini
+geckodriver.exe

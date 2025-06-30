@@ -1,6 +1,6 @@
 <?php
-require_once "LogableActionsInterface.php";
-require_once "ConnectToDatabase.php";
+require_once __DIR__ . "/LogableActionsInterface.php";
+require_once __DIR__ . "/../ConnectToDatabase.php";
 
 class LogableActions implements LogableActionsInterface
 {
