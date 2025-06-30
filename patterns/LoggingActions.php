@@ -62,6 +62,7 @@ class LoggingActions implements LogableActionsInterface
         $log = "INSERT INTO logs (user_id, event, photo_id) VALUES ($user_id, 'USER UPLOADED PHOTO', $img_id)";
         $db->Execute($log);
         $db->Disconnect();
+        return $img_id;
     }
 
     /**

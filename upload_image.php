@@ -77,7 +77,7 @@
 
             $Q = constructPhotoUploadQuery($esc_name,$user_id,$desc,$hash_array);
 
-            (new LoggingActions(new LogableActions()))->UserPhotoUpload($db, $Q, $user_id);
+            $img_id=(new LoggingActions(new LogableActions()))->UserPhotoUpload($db, $Q, $user_id);
 
             $_SESSION['user']->addConsumption($db,$user_id);
         }
