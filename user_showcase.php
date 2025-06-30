@@ -1,11 +1,11 @@
 <?php
     require "patterns/UserBuilderFactory.php";
     require_once "functions.php";
-    require_once "ConnectToDatabase.php";
+    require_once "MySQLiConfig.php";
     require "patterns/LogsIterator.php";
     session_start();
 
-    $db = ConnectToDatabase::getInstance();
+    $db = MySQLiConfig::getInstance();
     $db->connect();
 
     if (!isset($_SESSION['reverse_order'])) $_SESSION['reverse_order'] = false;
@@ -18,7 +18,7 @@
     $logs = "SELECT * FROM logs WHERE user_id=$id";
     $user_logs = new LogsIterator();
     $user_logs->addItems(mysqli_fetch_all($db->Execute($logs)));
-    $db->close();
+    $db->Disconnect();
 
 try {
     $user_showcase = UserBuilderFactory::createShowcasedUserBuilder()

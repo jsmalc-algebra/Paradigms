@@ -1,10 +1,10 @@
 <?php
-    require_once "ConnectToDatabase.php";
+    require_once "MySQLiConfig.php";
     require "functions.php";
     require "User.php";
     session_start();
 
-    $db = ConnectToDatabase::getInstance();
+    $db = MySQLiConfig::getInstance();
     $db->Connect();
 
     if (!isset($_POST['filter'])) {
@@ -65,7 +65,7 @@
     }
 
     $_SESSION['all_photos'] = mysqli_fetch_all($db->Execute($Q));
-    $db->close();
+    $db->Disconnect();
 ?>
 
 <html lang="en">

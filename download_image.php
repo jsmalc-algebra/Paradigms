@@ -1,20 +1,25 @@
 <?php
     require "User.php";
-    require_once "ConnectToDatabase.php";
+    require_once "MySQLiConfig.php";
     require "functions.php";
     require_once "patterns/LogableActions.php";
     require_once "patterns/LoggingActions.php";
+    require_once __DIR__ . '/vendor/autoload.php';
+    use Prometheus\CollectorRegistry;
+    use Prometheus\Storage\APC;
+    $adapter = new APC();
+    $registry = new CollectorRegistry($adapter);
     session_start();
 
     $id = $_GET['id'];
-    $db = ConnectToDatabase::getInstance();
+    $db = MySQLiConfig::getInstance();
     $db->Connect();
     $Query = "SELECT * FROM photos WHERE id = '$id'";
     $rez = mysqli_fetch_row($db->Execute($Query));
 
     if (isset($_POST['download'])) {
         $u_id =findIDByUsername($_SESSION['user']->getUsername());
-        (new LoggingActions(new LoggingActions()))->UserPhotoDownload($db, $u_id,$id);
+        (new LoggingActions(new LogableActions()))->UserPhotoDownload($db, $u_id,$id);
 
         $path='images/photos/'.$rez[1];
         $source_img = convertToGD($path);
@@ -71,13 +76,18 @@
             header('Content-Disposition: attachment; filename="'.reset($exp_path).'"');
             imagewebp($source_img);
         }
-
+        try {
+            $counter = $registry->registerCounter('metrics', 'download_counter', 'counts how many times pictures were downloaded');
+            $counter->inc();
+        } catch (\Prometheus\Exception\MetricsRegistrationException $e) {
+            echo $e->getMessage() . "\n";
+        }
         imagedestroy($source_img);
     }
-    $db->Close();
+    $db->Disconnect();
 ?>
 
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="css/bootstrap.css">

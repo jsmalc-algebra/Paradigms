@@ -1,13 +1,13 @@
 <?php
     require "User.php";
-    require_once "ConnectToDatabase.php";
+    require_once "MySQLiConfig.php";
     require "functions.php";
     require_once "patterns/LoggingActions.php";
     require_once "patterns/LogableActions.php";
     session_start();
 
     $u_id = findIDByUsername($_SESSION['user']->getUsername());
-    $db = ConnectToDatabase::getInstance();
+    $db = MySQLiConfig::getInstance();
     $db->Connect();
     $sql = "SELECT * FROM `logs` WHERE `event`=\"USER CHANGED PLAN\" AND `user_id`=$u_id AND `timestamp` <= NOW() - INTERVAL 1 DAY;";
     if (mysqli_fetch_all($db->Execute($sql))) $restrict = true;
@@ -19,11 +19,11 @@
 
         $Q="UPDATE users SET plan_id = $new_plan WHERE id = $u_id";
 
-        (new LoggingActions(new LogableActions()))->UserPlanChange($db,$u_id);
+        (new LoggingActions(new LogableActions()))->UserPlanChange($db,$Q,$u_id);
     }
 ?>
 
-<html>
+<html lang="en">
     <head>
         <title>Landing page</title>
         <link rel="stylesheet" href="css/bootstrap.css">

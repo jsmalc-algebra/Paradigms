@@ -1,17 +1,17 @@
 <?php
-    require "User.php";
-    require_once "ConnectToDatabase.php";
-    require "functions.php";
+    require_once "User.php";
+    require_once "MySQLiConfig.php";
+    require_once "functions.php";
     session_start();
 
-    $db = ConnectToDatabase::getInstance();
+    $db = MySQLiConfig::getInstance();
     $db->connect();
 
     unset($_SESSION['latest_photos']);
 
     $Q = "SELECT * FROM photos ORDER BY `upload timestamp` DESC LIMIT 10";
     $_SESSION['latest_photos'] = mysqli_fetch_all($db->Execute($Q));
-    $db->close();
+    $db->Disconnect();
 ?>
 
 <html lang="en">

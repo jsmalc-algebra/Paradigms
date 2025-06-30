@@ -1,7 +1,7 @@
 <?php
     if (isset($_POST['create'])){
         require "patterns/UserBuilderFactory.php";
-        require_once "ConnectToDatabase.php";
+        require_once "MySQLiConfig.php";
 
         $submitflag = true;
         if (strcmp($_POST['password'],$_POST['confirm_password'])==0) {
@@ -20,7 +20,7 @@
         $email=$_POST['email'];
         $tier=$_POST['tier_select'];
 
-        $db =ConnectToDatabase::getInstance();
+        $db =MySQLiConfig::getInstance();
         try {
             $db->Connect();
         } catch (Exception $e) {
@@ -113,7 +113,7 @@
             }
 
         } else $universal_flag=true;
-        $db->Close();
+        $db->Disconnect();
     }
 ?>
 
@@ -131,7 +131,7 @@
                 <form action="" method="post" enctype="multipart/form-data">
                     <?php
                         if(isset($_POST['create']) && !$universal_flag) {
-                        $db =ConnectToDatabase::getInstance();
+                        $db =MySQLiConfig::getInstance();
                             try {
                                 $db->Connect();
                             } catch (Exception $e) {
