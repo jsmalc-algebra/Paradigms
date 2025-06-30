@@ -1,33 +1,33 @@
 <?php
 require_once __DIR__ . "/LogableActionsInterface.php";
-require_once __DIR__ . "/../ConnectToDatabase.php";
+require_once __DIR__ . "/../MySQLiConfig.php";
 
 class LogableActions implements LogableActionsInterface
 {
 
-    public function UserCreation(ConnectToDatabase $db,$Q)
+    public function UserCreation(MySQLiConfig $db, $Q)
     {
         $db->Execute($Q);
         $id = $db->FetchLastInsertId();
         return $id;
     }
 
-    public function UserLogin($id, ConnectToDatabase $db)
+    public function UserLogin($id, MySQLiConfig $db)
     {
         // login is handled by landing page, but still needs to be logged
     }
 
-    public function UserLogout(ConnectToDatabase $db, $id)
+    public function UserLogout(MySQLiConfig $db, $id)
     {
         // logout is handled by logout script, still needs to be logged
     }
 
-    public function AnonymousUserLogin(ConnectToDatabase $db)
+    public function AnonymousUserLogin(MySQLiConfig $db)
     {
         // handled by anonymous logger
     }
 
-    public function AnonymousUserLogout(ConnectToDatabase $db)
+    public function AnonymousUserLogout(MySQLiConfig $db)
     {
         // handled by logout
     }
@@ -35,14 +35,14 @@ class LogableActions implements LogableActionsInterface
     /**
      * @throws Exception
      */
-    public function UserPhotoUpload(ConnectToDatabase $db, $Q, $user_id)
+    public function UserPhotoUpload(MySQLiConfig $db, $Q, $user_id)
     {
         $db->Execute($Q);
         return $db->FetchLastInsertId();
 
     }
 
-    public function UserPhotoDownload(ConnectToDatabase $db, $u_id, $id)
+    public function UserPhotoDownload(MySQLiConfig $db, $u_id, $id)
     {
         // handled by upload_image
     }
@@ -50,7 +50,7 @@ class LogableActions implements LogableActionsInterface
     /**
      * @throws Exception
      */
-    public function UserPhotoEdit(ConnectToDatabase $db, $query, $u_id, $id)
+    public function UserPhotoEdit(MySQLiConfig $db, $query, $u_id, $id)
     {
         $db->Execute($query);
     }
@@ -58,7 +58,7 @@ class LogableActions implements LogableActionsInterface
     /**
      * @throws Exception
      */
-    public function AdminUserEdit(ConnectToDatabase $db, $sql, $admin_id, $u_id)
+    public function AdminUserEdit(MySQLiConfig $db, $sql, $admin_id, $u_id)
     {
         $db->Execute($sql);
     }
@@ -66,12 +66,12 @@ class LogableActions implements LogableActionsInterface
     /**
      * @throws Exception
      */
-    public function UserPlanChange(ConnectToDatabase $db, $Q, $u_id)
+    public function UserPlanChange(MySQLiConfig $db, $Q, $u_id)
     {
         $db->Execute($Q);
     }
 
-    public function AdminPhotoDelete(ConnectToDatabase $db, $Q, $u_id)
+    public function AdminPhotoDelete(MySQLiConfig $db, $Q, $u_id)
     {
         $db->Connect();
         $db->Execute($Q);

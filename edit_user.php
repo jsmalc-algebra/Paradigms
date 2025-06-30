@@ -1,12 +1,12 @@
 <?php
-    require_once "ConnectToDatabase.php";
+    require_once "MySQLiConfig.php";
     require "User.php";
     require "functions.php";
     session_start();
 
     $spotlighted_user = $_SESSION['showcased user'];
     if (isset($_POST['edit'])) {
-        $db = ConnectToDatabase::getInstance();
+        $db = MySQLiConfig::getInstance();
         $db->connect();
 
         $new_name = $_POST['username'];

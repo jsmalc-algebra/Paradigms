@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 use PHPUnit\Framework\TestCase;
-require_once __DIR__ . '/../ConnectToDatabase.php';
+require_once __DIR__ . '/../MySQLiConfig.php';
 require_once __DIR__ . '/../user.php';
 require_once __DIR__ . '/../functions.php';
 require_once __DIR__ . '/../patterns/UserBuilderFactory.php';

@@ -1,18 +1,18 @@
 <?php
     require_once "User.php";
     require_once "functions.php";
-    require_once "ConnectToDatabase.php";
+    require_once "MySQLiConfig.php";
     require_once "patterns/AuthorizationDecorator.php";
     session_start();
 
-    $db = ConnectToDatabase::getInstance();
+    $db = MySQLiConfig::getInstance();
     $db->connect();
 
     $id = findIDByUsername($_SESSION['user']->getUsername());
     $Q = "SELECT * from photos where user_id='".$id."'";
     $_SESSION['user_photos'] = mysqli_fetch_all($db->Execute($Q));
 
-    $db->Close();
+    $db->Disconnect();
 ?>
 
 <html lang="en">

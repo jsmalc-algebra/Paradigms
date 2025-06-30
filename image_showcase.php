@@ -1,15 +1,15 @@
 <?php
     require "User.php";
-    require_once "ConnectToDatabase.php";
+    require_once "MySQLiConfig.php";
     require "functions.php";
     session_start();
 
     $id = $_GET['id'];
-    $db = ConnectToDatabase::getInstance();
+    $db = MySQLiConfig::getInstance();
     $db->Connect();
     $Query = "SELECT * FROM photos WHERE id = '$id'";
     $rez = mysqli_fetch_row($db->Execute($Query));
-    $db->Close();
+    $db->Disconnect();
 ?>
 
 <html>

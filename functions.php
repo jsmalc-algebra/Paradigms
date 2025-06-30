@@ -1,5 +1,5 @@
 <?php
-    require_once "ConnectToDatabase.php";
+    require_once "MySQLiConfig.php";
     function convertToGD($tempPath) {
         $allowedMimeTypes = [
             'image/jpeg',
@@ -41,22 +41,22 @@
     }
 
     function findUsernameByID($id) {
-        $func_db = ConnectToDatabase::getInstance();
+        $func_db = MySQLiConfig::getInstance();
         $func_db->connect();
 
         $Query = "SELECT username FROM users WHERE id = '$id'";
         $rez = mysqli_fetch_array($func_db->Execute($Query));
-        $func_db -> close();
+        $func_db -> Disconnect();
         return $rez['username'];
     }
 
     function findHashtagByID($id) {
-        $func_db = ConnectToDatabase::getInstance();
+        $func_db = MySQLiConfig::getInstance();
         $func_db->connect();
 
         $Query = "SELECT hashtag_content FROM hashtags WHERE id = '$id'";
         $rez = mysqli_fetch_array($func_db->Execute($Query));
-        $func_db -> close();
+        $func_db -> Disconnect();
         return $rez['hashtag_content'];
     }
 
@@ -105,11 +105,11 @@
 
     function findIDByUsername($username)
     {
-        $db =ConnectToDatabase::getInstance();
+        $db =MySQLiConfig::getInstance();
         $db->connect();
         $Q = "SELECT id from users where username='$username'";
         $rez = mysqli_fetch_row($db->Execute($Q));
-        $db->close();
+        $db->Disconnect();
         if ($rez!=null) return $rez[0];
         else return null;
     }

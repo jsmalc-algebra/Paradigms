@@ -1,13 +1,13 @@
 <?php
     require "User.php";
-    require_once "ConnectToDatabase.php";
+    require_once "MySQLiConfig.php";
     require "functions.php";
     require_once "patterns/LogableActions.php";
     require_once "patterns/LoggingActions.php";
     session_start();
 
     $id = $_GET['id'];
-    $db = ConnectToDatabase::getInstance();
+    $db = MySQLiConfig::getInstance();
     $db->Connect();
     $Query = "SELECT * FROM photos WHERE id = '$id'";
     $rez = mysqli_fetch_row($db->Execute($Query));
@@ -74,7 +74,7 @@
 
         imagedestroy($source_img);
     }
-    $db->Close();
+    $db->Disconnect();
 ?>
 
 <html>

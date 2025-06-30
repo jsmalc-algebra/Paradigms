@@ -1,10 +1,10 @@
 <?php
-    require_once "ConnectToDatabase.php";
+    require_once "MySQLiConfig.php";
     require_once "patterns/LogableActions.php";
     require_once "patterns/LoggingActions.php";
 
-    $db = ConnectToDatabase::getInstance();
+    $db = MySQLiConfig::getInstance();
     $db->connect();
     ((new LoggingActions(new LogableActions()))->AnonymousUserLogin($db));
-    $db->close();
+    $db->Disconnect();
     header("Location: main_page.php");

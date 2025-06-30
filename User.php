@@ -1,5 +1,5 @@
 <?php
-require_once "ConnectToDatabase.php";
+require_once "MySQLiConfig.php";
 require_once "patterns/LogableActions.php";
 require_once "patterns/LoggingActions.php";
 
@@ -170,7 +170,7 @@ class User
         $this->weekly_pictures_uploaded = $weekly_pictures_uploaded;
     }
 
-    public function addToDB(ConnectToDatabase $db){
+    public function addToDB(DBConnectionInterface $db){
         $esc_usr = $db->escapeString($this->username);
         $esc_pwd = $db->escapeString($this->password);
         if (!$this->pfp) $bool = 0;
@@ -184,14 +184,14 @@ class User
         return $logger->UserCreation($db,$Q);
     }
 
-    public function addConsumption(ConnectToDatabase $db,$id)
+    public function addConsumption(DBConnectionInterface $db, $id)
     {
         $sql = "UPDATE `users` SET `weekly pictures uploaded` = `weekly pictures uploaded`+1 WHERE `users`.`id` = $id;";
         $db->Execute($sql);
         $this->weekly_pictures_uploaded += 1;
     }
 
-    public function alterDB(ConnectToDatabase $db,$admin_id,$u_id)
+    public function alterDB(DBConnectionInterface $db, $admin_id, $u_id)
     {
         if (!$this->pfp) $bool = 0;
         else $bool = 1;

@@ -9,11 +9,11 @@
     if (isset($_SESSION["user"])) header('location: main_page.php');
 
     if(isset($_POST['login'])) {
-        require_once "ConnectToDatabase.php";
+        require_once "MySQLiConfig.php";
 
 
 
-        $db= ConnectToDatabase::getInstance();
+        $db= MySQLiConfig::getInstance();
         $db->Connect();
 
         $submited_email=$_POST['email'];
@@ -38,7 +38,7 @@
                 echo $e->getMessage();
             }
         } else {$good_login=false;}
-        $db->Close();
+        $db->Disconnect();
     }
 ?>
 

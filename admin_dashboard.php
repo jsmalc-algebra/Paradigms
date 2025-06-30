@@ -1,13 +1,13 @@
 <?php
     require "User.php";
-    require_once "ConnectToDatabase.php";
+    require_once "MySQLiConfig.php";
     session_start();
 
-    $db = ConnectToDatabase::getInstance();
+    $db = MySQLiConfig::getInstance();
     $db->connect();
     $Q = "SELECT * FROM users WHERE role_id !=1";
     $rez = mysqli_fetch_all($db->Execute($Q));
-    $db->close();
+    $db->Disconnect();
 
     function generateUserShowcaseFromArray($array)
     {

@@ -1,7 +1,7 @@
 <?php
     require "User.php";
     require "functions.php";
-    require_once "ConnectToDatabase.php";
+    require_once "MySQLiConfig.php";
     require_once "patterns/LoggingActions.php";
     require_once "patterns/LogableActions.php";
     session_start();
@@ -47,7 +47,7 @@
                 imagedestroy($sourceImage);
             }
 
-            $db = ConnectToDatabase::getInstance();
+            $db = MySQLiConfig::getInstance();
             $db->connect();
 
             $username = $_SESSION['user']->getUsername();
@@ -155,7 +155,7 @@
                 <form action="" method="post" enctype="multipart/form-data">
                     <?php
                         if (isset($_POST['upload']) && !$overhash_flag){
-                            $db = ConnectToDatabase::getInstance();
+                            $db = MySQLiConfig::getInstance();
                             $db->connect();
                             if (!empty(mysqli_fetch_array($db->Execute("SELECT * FROM photos WHERE id = $img_id"))))
                                 echo "<h2 style='color: limegreen'>PHOTO SUCCESSFULLY UPLOADED</h2>";

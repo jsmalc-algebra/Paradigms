@@ -1,12 +1,12 @@
 <?php
     require "User.php";
     require "functions.php";
-    require_once "ConnectToDatabase.php";
+    require_once "MySQLiConfig.php";
     require_once "patterns/LoggingActions.php";
     require_once "patterns/LogableActions.php";
     session_start();
 
-    $db = ConnectToDatabase::getInstance();
+    $db = MySQLiConfig::getInstance();
     $db->Connect();
     $id = $_GET['id'];
 
@@ -74,7 +74,7 @@
     $hashtags = [];
     for ($i = 0; $i < 5; $i++) if ($rez[$i+5] != null) $hashtag_ids[] = $rez[$i+5];
     foreach ($hashtag_ids as $hashtag_id) $hashtags[] = findHashtagByID($hashtag_id);
-    $db->Close();
+    $db->Disconnect();
 ?>
 
 <html lang="en">

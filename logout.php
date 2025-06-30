@@ -1,11 +1,11 @@
 <?php
-    require_once "ConnectToDatabase.php";
+    require_once "MySQLiConfig.php";
     require "User.php";
     require_once "patterns/LogableActions.php";
     require_once "patterns/LoggingActions.php";
     session_start();
 
-    $db = ConnectToDatabase::getInstance();
+    $db = MySQLiConfig::getInstance();
     $db->connect();
 
     if(isset($_SESSION['user'])) {
@@ -17,7 +17,7 @@
         (new LoggingActions(new LogableActions()))->UserLogout($db,$id);
     }
     else (new LoggingActions(new LogableActions()))->AnonymousUserLogout($db);
-    $db->close();
+    $db->Disconnect();
     session_destroy();
     header("Location: landing_page.php");
 
